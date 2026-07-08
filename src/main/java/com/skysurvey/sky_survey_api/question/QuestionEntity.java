@@ -4,6 +4,8 @@ import com.skysurvey.sky_survey_api.survey.SurveyEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "questions",uniqueConstraints = {@UniqueConstraint(name = "unique_question_name_per_survey",
@@ -71,6 +73,16 @@ public class QuestionEntity {
     @Column(name = "allow_multiple_files")
     private Boolean  allowMultipleFiles;
 
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder")
+    private List<OptionEntity> options = new ArrayList<>();
+
+    public List<OptionEntity> getOptions() { return options; }
+    public void addOption(OptionEntity option) {
+        option.setQuestion(this);
+        this.options.add(option);
+    }
     @PrePersist
     void onCreate() {
         if (this.status == null) this.status = "ACTIVE";
