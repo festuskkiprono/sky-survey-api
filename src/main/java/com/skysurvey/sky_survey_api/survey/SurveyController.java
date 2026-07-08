@@ -41,5 +41,21 @@ public class SurveyController {
         return SurveyResponseDto.from(surveyService.updateSurvey(id, request));
 
     }
+    @PatchMapping("/{id}/activate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable Integer id) {
+        surveyService.activateSurvey(id);
+    }
+    @PatchMapping("/{id}/deactivate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivate(@PathVariable Integer id) {
+        surveyService.deActivateSurvey(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer id) {
+        surveyService.deleteSurvey(id);
+    }
 
 }

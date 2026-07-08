@@ -2,6 +2,7 @@ package com.skysurvey.sky_survey_api.survey;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,6 +30,36 @@ public class SurveyService {
                 .orElseThrow(()->new SurveyNotFoundException(id));
         entity.setDescription(dto.getDescription());
         return surveyRepository.save(entity);
+    }
+
+    public void activateSurvey(Integer id){
+        SurveyEntity survey = surveyRepository.findById(id)
+                .orElseThrow(()->new SurveyNotFoundException(id));
+
+        // TODO: refuse activation if the survey has no active questions
+
+
+        if (survey.getDeletedAt() != null)
+            throw new InvalidSurveyActivationException("Cannot activate  a deleted survey");
+        survey.setStatus("ACTIVE");
+        surveyRepository.save(survey);
+    }
+    public void deActivateSurvey(Integer id){
+        SurveyEntity survey = surveyRepository.findById(id)
+                .orElseThrow(()->new SurveyNotFoundException(id));
+
+        if(survey.getDeletedAt() != null)
+            throw new InvalidSurveyActivationException("Cannot deactivate a deleted survey");
+        survey.setStatus("INACTIVE");
+        surveyRepository.save(survey);
+    }
+
+    public void deleteSurvey(Integer id){
+        SurveyEntity survey = surveyRepository.findById(id)
+                .orElseThrow(()->new SurveyNotFoundException(id));
+        survey.setDeletedAt(LocalDateTime.now());
+        surveyRepository.save(survey);
+
     }
 
 
