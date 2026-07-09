@@ -18,4 +18,15 @@ public class GlobalExceptionHandler {
     public ErrorDto handleInvalidState(InvalidSurveyActivationException ex) {
         return new ErrorDto(ex.getMessage());
     }
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleInvalidPayload(IllegalStateException ex) {
+        return new ErrorDto(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleIllegalArgument(IllegalArgumentException ex) {
+        return new ErrorDto(ex.getMessage());
+    }
 }

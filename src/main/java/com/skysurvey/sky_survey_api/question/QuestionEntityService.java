@@ -1,14 +1,14 @@
 package com.skysurvey.sky_survey_api.question;
 
-import com.skysurvey.sky_survey_api.domain.Question;
-import com.skysurvey.sky_survey_api.domain.QuestionRequest;
+import com.skysurvey.sky_survey_api.domain.*;
 import com.skysurvey.sky_survey_api.survey.InvalidSurveyStateException;
 import com.skysurvey.sky_survey_api.survey.SurveyEntity;
 import com.skysurvey.sky_survey_api.survey.SurveyNotFoundException;
 import com.skysurvey.sky_survey_api.survey.SurveyRepository;
-import com.skysurvey.sky_survey_api.domain.QuestionFactory;
 import org.springframework.stereotype.Service;
+import com.skysurvey.sky_survey_api.question.QuestionNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.skysurvey.sky_survey_api.question.QuestionEntityFromQuestion.createQuestionEntity;
@@ -37,5 +37,80 @@ public class QuestionEntityService {
         if (!surveyRepository.existsById(surveyId))
             throw new SurveyNotFoundException(surveyId);
         return questionEntityRepository.findBySurveyIdOrderByDisplayOrder(surveyId);
+    }
+
+    private QuestionEntity findQuestionInSurvey(Integer surveyId, Integer questionId) {
+        QuestionEntity q = questionEntityRepository.findById(questionId)
+                .orElseThrow(() -> new QuestionNotFoundException(questionId));
+        if (q.getSurvey().getId() != (surveyId))
+            throw new QuestionNotFoundException(questionId);
+        return q;
+    }
+
+    public QuestionEntity updateQuestion(Integer surveyId, Integer questionId, QuestionRequest request) {
+        QuestionEntity entity = findQuestionInSurvey(surveyId, questionId);
+
+        if (entity.getDeletedAt() != null)
+            throw new InvalidSurveyStateException("Cannot edit a deleted question");
+        if (entity.getSurvey().getDeletedAt() != null)
+            throw new InvalidSurveyStateException("Cannot edit questions of a deleted survey");
+        if (!entity.getType().equals(request.getType()))
+            throw new IllegalArgumentException("Question type cannot be changed");
+
+        Question rebuilt = QuestionFactory.createQuestion(request);   // full re-validation
+
+        entity.setName(rebuilt.getName());
+        entity.setQuestionText(rebuilt.getPrompt());
+        entity.setDescription(rebuilt.getDescription());
+        entity.setRequired(rebuilt.isRequired());
+
+        if (rebuilt instanceof TextQuestion t) {
+            entity.setMaxLength(t.getMaxLength());
+        } else if (rebuilt instanceof ChoiceQuestion c) {
+            entity.setAllowMultiple(c.isAllowMultiple());
+            entity.setMinSelection(c.getMinSelection());
+            entity.setMaxSelection(c.getMaxSelection());
+
+            entity.getOptions().clear();
+            int order = 1;
+            for (Option o : c.getOptions()) {
+                OptionEntity oe = new OptionEntity();
+                oe.setOptionValue(o.getValue());
+                oe.setLabel(o.getLabel());
+                oe.setDisplayOrder(order++);
+                entity.addOption(oe);
+            }
+        } else if (rebuilt instanceof FileQuestion f) {
+            entity.setFileFormat(f.getFileFormat());
+            entity.setMaxFileSize(f.getMaxFileSize());
+            entity.setMaxFileSizeUnit(f.getMaxFileSizeUnit());
+            entity.setAllowMultipleFiles(f.isAllowMultipleFiles());
+        }
+
+        return questionEntityRepository.save(entity);
+    }
+
+
+    public void activateQuestion(Integer surveyId, Integer questionId) {
+        QuestionEntity q = findQuestionInSurvey(surveyId, questionId);
+        if (q.getDeletedAt() != null)
+            throw new InvalidSurveyStateException("Cannot activate a deleted question");
+        q.setStatus("ACTIVE");
+        questionEntityRepository.save(q);
+    }
+
+    public void deactivateQuestion(Integer surveyId, Integer questionId) {
+        QuestionEntity q = findQuestionInSurvey(surveyId, questionId);
+        if (q.getDeletedAt() != null)
+            throw new InvalidSurveyStateException("Cannot deactivate a deleted question");
+        q.setStatus("INACTIVE");
+        questionEntityRepository.save(q);
+    }
+
+
+    public void deleteQuestion(Integer surveyId, Integer questionId) {
+        QuestionEntity q = findQuestionInSurvey(surveyId, questionId);
+        q.setDeletedAt(LocalDateTime.now());
+        questionEntityRepository.save(q);
     }
 }

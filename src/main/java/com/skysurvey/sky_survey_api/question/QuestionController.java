@@ -32,4 +32,29 @@ public class QuestionController {
         return new QuestionsListDto(dtos);
     }
 
+    @PutMapping(value = "/{questionId}", consumes = MediaType.APPLICATION_XML_VALUE)
+    public QuestionResponseDto update(@PathVariable Integer surveyId,
+                                      @PathVariable Integer questionId,
+                                      @RequestBody QuestionRequest request) {
+        return QuestionResponseDto.from(service.updateQuestion(surveyId, questionId, request));
+    }
+
+    @PatchMapping("/{questionId}/activate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable Integer surveyId, @PathVariable Integer questionId) {
+        service.activateQuestion(surveyId, questionId);
+    }
+
+    @PatchMapping("/{questionId}/deactivate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivate(@PathVariable Integer surveyId, @PathVariable Integer questionId) {
+        service.deactivateQuestion(surveyId, questionId);
+    }
+
+    @DeleteMapping("/{questionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer surveyId, @PathVariable Integer questionId) {
+        service.deleteQuestion(surveyId, questionId);
+    }
+
 }

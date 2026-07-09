@@ -1,5 +1,6 @@
 package com.skysurvey.sky_survey_api.survey;
 
+import com.skysurvey.sky_survey_api.question.QuestionEntityRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -8,8 +9,11 @@ import java.util.List;
 @Service
 public class SurveyService {
     private SurveyRepository surveyRepository;
-    public SurveyService(SurveyRepository surveyRepository) {
+    private final QuestionEntityRepository questionEntityRepository;
+    public SurveyService(SurveyRepository surveyRepository, QuestionEntityRepository questionEntityRepository) {
+
         this.surveyRepository = surveyRepository;
+        this.questionEntityRepository= questionEntityRepository;
     }
 
     public SurveyEntity createSurvey(CreateSurveyRequest surveyRequest) {
@@ -36,7 +40,9 @@ public class SurveyService {
         SurveyEntity survey = surveyRepository.findById(id)
                 .orElseThrow(()->new SurveyNotFoundException(id));
 
-        // TODO: refuse activation if the survey has no active questions
+
+        if (questionEntityRepository.countBySurveyIdAndStatusAndDeletedAtIsNull(survey.getId(), "ACTIVE") == 0)
+            throw new InvalidSurveyStateException("Cannot activate a survey with no active questions");
 
 
         if (survey.getDeletedAt() != null)

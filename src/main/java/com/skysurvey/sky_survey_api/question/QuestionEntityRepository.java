@@ -9,4 +9,5 @@ import java.util.List;
 public interface QuestionEntityRepository extends JpaRepository<QuestionEntity, Integer> {
     int countBySurveyId(Integer surveyId);
     List<QuestionEntity> findBySurveyIdOrderByDisplayOrder(Integer surveyId);
+    int countBySurveyIdAndStatusAndDeletedAtIsNull(Integer surveyId, String status);
 }
