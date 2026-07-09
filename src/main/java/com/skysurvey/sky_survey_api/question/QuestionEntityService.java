@@ -9,6 +9,8 @@ import com.skysurvey.sky_survey_api.survey.SurveyRepository;
 import com.skysurvey.sky_survey_api.domain.QuestionFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.skysurvey.sky_survey_api.question.QuestionEntityFromQuestion.createQuestionEntity;
 @Service
 public class QuestionEntityService {
@@ -29,11 +31,11 @@ public class QuestionEntityService {
         QuestionEntity questionEntity  = createQuestionEntity(question,surveyEntity);
         questionEntity.setDisplayOrder(questionEntityRepository.countBySurveyId(surveyEntity.getId())+1);
         return questionEntityRepository.save(questionEntity);
+    }
 
-
-
-
-
-
+    public List<QuestionEntity> findQuestionsBySurveyId(Integer surveyId) {
+        if (!surveyRepository.existsById(surveyId))
+            throw new SurveyNotFoundException(surveyId);
+        return questionEntityRepository.findBySurveyIdOrderByDisplayOrder(surveyId);
     }
 }

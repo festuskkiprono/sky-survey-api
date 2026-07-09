@@ -1,5 +1,7 @@
 package com.skysurvey.sky_survey_api.survey;
 
+import com.skysurvey.sky_survey_api.question.QuestionEntity;
+import com.skysurvey.sky_survey_api.question.QuestionEntityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,11 @@ import java.util.List;
 @RequestMapping(value = "/api/surveys",produces = MediaType.APPLICATION_XML_VALUE)
 public class SurveyController {
     private final SurveyService surveyService;
+    QuestionEntityService questionEntityService;
     public SurveyController(SurveyService surveyService) {
+
         this.surveyService = surveyService;
+        this.questionEntityService = questionEntityService;
     }
 
     @PostMapping(consumes=MediaType.APPLICATION_XML_VALUE)
@@ -57,5 +62,7 @@ public class SurveyController {
     public void delete(@PathVariable Integer id) {
         surveyService.deleteSurvey(id);
     }
+
+
 
 }
