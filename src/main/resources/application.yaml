@@ -8,3 +8,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  servlet:
+    multipart:
+      max-file-size: 60MB
+      max-request-size: 200MB
+  app:
+    uploads:
+      # Where LocalDiskFileStorage puts certificate bytes.
+      # Relative path = resolved against the app's working directory.
+      dir: uploads

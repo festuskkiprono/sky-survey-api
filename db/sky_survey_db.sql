@@ -98,7 +98,7 @@ create table uploaded_files(
                                storage_path varchar(255) not null,
                                file_size int not null,
                                file_type varchar(100) not null,
-                               created_at timestamp not null default current_timestamp,
+                               uploaded_at timestamp not null default current_timestamp,
 
                                constraint fk_file_answer foreign key (answer_id) references answers(id),
                                constraint chk_file_size check (file_size >= 0 and file_size <= 52428800)
