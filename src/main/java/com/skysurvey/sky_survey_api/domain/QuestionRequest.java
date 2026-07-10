@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+
 @Getter
 @Setter
 public class QuestionRequest {
@@ -24,7 +25,7 @@ public class QuestionRequest {
     private boolean allowMultiple;
     private Integer minSelection;
     private Integer maxSelection;
-    private List<Option> options;
+    private List<OptionInput> options;
 
     //For file questions
     private Integer maxFileSize;
@@ -32,6 +33,12 @@ public class QuestionRequest {
     private boolean allowMultipleFiles;
     private String fileFormat;
 
+    @Getter
+    @Setter
+    public static class OptionInput {
+        private String value;
+        private String label;
+    }
 
 
 }

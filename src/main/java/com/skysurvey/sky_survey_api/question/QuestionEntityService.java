@@ -1,4 +1,5 @@
 package com.skysurvey.sky_survey_api.question;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.skysurvey.sky_survey_api.domain.*;
 import com.skysurvey.sky_survey_api.survey.InvalidSurveyStateException;
@@ -14,6 +15,7 @@ import java.util.List;
 import static com.skysurvey.sky_survey_api.question.QuestionEntityFromQuestion.createQuestionEntity;
 @Service
 public class QuestionEntityService {
+
     private final SurveyRepository surveyRepository;
     private final QuestionEntityRepository questionEntityRepository;
     public QuestionEntityService(SurveyRepository surveyRepository,QuestionEntityRepository questionEntityRepository) {
@@ -46,7 +48,7 @@ public class QuestionEntityService {
             throw new QuestionNotFoundException(questionId);
         return q;
     }
-
+    @Transactional
     public QuestionEntity updateQuestion(Integer surveyId, Integer questionId, QuestionRequest request) {
         QuestionEntity entity = findQuestionInSurvey(surveyId, questionId);
 
@@ -72,6 +74,7 @@ public class QuestionEntityService {
             entity.setMaxSelection(c.getMaxSelection());
 
             entity.getOptions().clear();
+            questionEntityRepository.saveAndFlush(entity);
             int order = 1;
             for (Option o : c.getOptions()) {
                 OptionEntity oe = new OptionEntity();

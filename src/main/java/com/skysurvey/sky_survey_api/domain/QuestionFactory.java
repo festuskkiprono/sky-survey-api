@@ -32,7 +32,7 @@ public class QuestionFactory {
                         }
 
                 if (questionRequest.getOptions() != null) {
-                    for (Option option : questionRequest.getOptions()) {
+                    for (QuestionRequest.OptionInput option : questionRequest.getOptions()) {
                         choiceQuestionBuilder.addOption(option.getValue(), option.getLabel());
                     }
                 }

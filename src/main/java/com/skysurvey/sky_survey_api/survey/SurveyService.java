@@ -32,6 +32,7 @@ public class SurveyService {
     public SurveyEntity updateSurvey(Integer id, CreateSurveyRequest dto) {
         SurveyEntity entity = surveyRepository.findById(id)
                 .orElseThrow(()->new SurveyNotFoundException(id));
+        entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         return surveyRepository.save(entity);
     }

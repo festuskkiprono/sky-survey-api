@@ -13,8 +13,8 @@ import java.util.List;
 @RequestMapping(value = "/api/surveys",produces = MediaType.APPLICATION_XML_VALUE)
 public class SurveyController {
     private final SurveyService surveyService;
-    QuestionEntityService questionEntityService;
-    public SurveyController(SurveyService surveyService) {
+    private final QuestionEntityService questionEntityService;
+    public SurveyController(SurveyService surveyService,QuestionEntityService questionEntityService) {
 
         this.surveyService = surveyService;
         this.questionEntityService = questionEntityService;
