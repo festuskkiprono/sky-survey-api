@@ -10,4 +10,5 @@ public interface QuestionEntityRepository extends JpaRepository<QuestionEntity, 
     int countBySurveyId(Integer surveyId);
     List<QuestionEntity> findBySurveyIdOrderByDisplayOrder(Integer surveyId);
     int countBySurveyIdAndStatusAndDeletedAtIsNull(Integer surveyId, String status);
+    List<QuestionEntity> findBySurveyIdAndStatusAndDeletedAtIsNullOrderByDisplayOrder(Integer surveyId, String status);
 }

@@ -116,4 +116,22 @@ public class QuestionEntityService {
         q.setDeletedAt(LocalDateTime.now());
         questionEntityRepository.save(q);
     }
+
+    public List<QuestionEntity> findQuestionsBySurveyId(Integer surveyId, boolean includeInactive) {
+        if (includeInactive) {
+            // Admin view: survey just has to exist; returns everything (incl. deleted) — your existing behavior
+            if (!surveyRepository.existsById(surveyId))
+                throw new SurveyNotFoundException(surveyId);
+            return questionEntityRepository.findBySurveyIdOrderByDisplayOrder(surveyId);
+        }
+
+        // User view: the SURVEY itself must be visible, not just the questions
+        SurveyEntity survey = surveyRepository.findById(surveyId)
+                .orElseThrow(() -> new SurveyNotFoundException(surveyId));
+        if (!"ACTIVE".equals(survey.getStatus()) || survey.getDeletedAt() != null)
+            throw new SurveyNotFoundException(surveyId);   // information hiding: unpublished = nonexistent
+
+        return questionEntityRepository
+                .findBySurveyIdAndStatusAndDeletedAtIsNullOrderByDisplayOrder(surveyId, "ACTIVE");
+    }
 }

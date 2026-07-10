@@ -63,6 +63,13 @@ public class SurveyController {
         surveyService.deleteSurvey(id);
     }
 
-
+    //  User-facing: only ACTIVE, non-deleted surveys
+    @GetMapping("/available")
+    public SurveysListDto listAvailable() {
+        List<SurveyResponseDto> dtos = surveyService.findAvailableSurveys().stream()
+                .map(SurveyResponseDto::from)
+                .toList();
+        return new SurveysListDto(dtos);
+    }
 
 }

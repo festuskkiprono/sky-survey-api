@@ -24,13 +24,7 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new QuestionCreatedDto(createdQuestion.getId(), createdQuestion.getName()));
     }
-    @GetMapping
-    public QuestionsListDto list(@PathVariable Integer surveyId) {
-        List<QuestionResponseDto> dtos = service.findQuestionsBySurveyId(surveyId).stream()
-                .map(QuestionResponseDto::from)
-                .toList();
-        return new QuestionsListDto(dtos);
-    }
+
 
     @PutMapping(value = "/{questionId}", consumes = MediaType.APPLICATION_XML_VALUE)
     public QuestionResponseDto update(@PathVariable Integer surveyId,
@@ -56,5 +50,15 @@ public class QuestionController {
     public void delete(@PathVariable Integer surveyId, @PathVariable Integer questionId) {
         service.deleteQuestion(surveyId, questionId);
     }
+
+    @GetMapping
+    public QuestionsListDto list(@PathVariable Integer surveyId,
+                                 @RequestParam(defaultValue = "false") boolean includeInactive) {
+        List<QuestionResponseDto> dtos = service.findQuestionsBySurveyId(surveyId, includeInactive).stream()
+                .map(QuestionResponseDto::from)
+                .toList();
+        return new QuestionsListDto(dtos);
+    }
+
 
 }

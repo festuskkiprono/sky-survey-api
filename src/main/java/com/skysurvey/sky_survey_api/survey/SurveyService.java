@@ -69,5 +69,9 @@ public class SurveyService {
 
     }
 
+    public List<SurveyEntity> findAvailableSurveys() {
+        return surveyRepository.findByStatusAndDeletedAtIsNull("ACTIVE");
+    }
+
 
 }
