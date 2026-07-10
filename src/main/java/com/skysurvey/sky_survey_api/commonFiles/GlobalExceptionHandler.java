@@ -1,6 +1,7 @@
 package com.skysurvey.sky_survey_api.commonFiles;
 
 import com.skysurvey.sky_survey_api.question.QuestionNotFoundException;
+import com.skysurvey.sky_survey_api.response.CertificateNotFoundException;
 import com.skysurvey.sky_survey_api.response.SubmissionNotAcceptedException;
 import com.skysurvey.sky_survey_api.response.SubmissionValidationException;
 import com.skysurvey.sky_survey_api.response.ValidationErrorsDto;
@@ -73,6 +74,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ValidationErrorsDto(
                         List.of("Upload exceeds the maximum permitted request size")));
+    }
+
+    @ExceptionHandler(CertificateNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorDto handleCertificateNotFound(CertificateNotFoundException ex) {
+        return new ErrorDto(ex.getMessage());
     }
 
 }

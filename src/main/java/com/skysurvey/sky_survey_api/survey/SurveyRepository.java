@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SurveyRepository extends JpaRepository<SurveyEntity, Integer> {
     List<SurveyEntity> findByStatusAndDeletedAtIsNull(String status);
+
 }
