@@ -47,14 +47,16 @@ public class SurveyController {
 
     }
     @PatchMapping("/{id}/activate")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void activate(@PathVariable Integer id) {
-        surveyService.activateSurvey(id);
+    public SurveyActivatedDeactivatedDto activate(@PathVariable Integer id) {
+        SurveyEntity survey = surveyService.activateSurvey(id);
+        return new SurveyActivatedDeactivatedDto("Survey '" + survey.getName() + "' has been activated");
     }
+
+
     @PatchMapping("/{id}/deactivate")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deactivate(@PathVariable Integer id) {
-        surveyService.deActivateSurvey(id);
+    public SurveyActivatedDeactivatedDto deactivate(@PathVariable Integer id) {
+        SurveyEntity survey = surveyService.deActivateSurvey(id);
+        return new SurveyActivatedDeactivatedDto("Survey '" + survey.getName() + "' has been deactivated");
     }
 
     @DeleteMapping("/{id}")

@@ -37,7 +37,7 @@ public class SurveyService {
         return surveyRepository.save(entity);
     }
 
-    public void activateSurvey(Integer id){
+    public SurveyEntity  activateSurvey(Integer id){
         SurveyEntity survey = surveyRepository.findById(id)
                 .orElseThrow(()->new SurveyNotFoundException(id));
 
@@ -49,16 +49,16 @@ public class SurveyService {
         if (survey.getDeletedAt() != null)
             throw new InvalidSurveyActivationException("Cannot activate  a deleted survey");
         survey.setStatus("ACTIVE");
-        surveyRepository.save(survey);
+        return surveyRepository.save(survey);
     }
-    public void deActivateSurvey(Integer id){
+    public SurveyEntity  deActivateSurvey(Integer id){
         SurveyEntity survey = surveyRepository.findById(id)
                 .orElseThrow(()->new SurveyNotFoundException(id));
 
         if(survey.getDeletedAt() != null)
             throw new InvalidSurveyActivationException("Cannot deactivate a deleted survey");
         survey.setStatus("INACTIVE");
-        surveyRepository.save(survey);
+        return surveyRepository.save(survey);
     }
 
     public void deleteSurvey(Integer id){

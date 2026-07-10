@@ -1,5 +1,6 @@
 package com.skysurvey.sky_survey_api.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -16,6 +17,7 @@ public class SubmissionReceiptDto {
     @JacksonXmlProperty(localName = "email_address")
     private final String emailAddress;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JacksonXmlProperty(localName = "date_responded")
     private final LocalDateTime dateResponded;
 
