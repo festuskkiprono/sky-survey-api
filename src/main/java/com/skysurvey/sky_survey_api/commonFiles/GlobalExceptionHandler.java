@@ -1,14 +1,21 @@
 package com.skysurvey.sky_survey_api.commonFiles;
 
 import com.skysurvey.sky_survey_api.question.QuestionNotFoundException;
+import com.skysurvey.sky_survey_api.response.SubmissionNotAcceptedException;
+import com.skysurvey.sky_survey_api.response.SubmissionValidationException;
+import com.skysurvey.sky_survey_api.response.ValidationErrorsDto;
 import com.skysurvey.sky_survey_api.survey.ErrorDto;
 import com.skysurvey.sky_survey_api.survey.InvalidSurveyActivationException;
 import com.skysurvey.sky_survey_api.survey.InvalidSurveyStateException;
 import com.skysurvey.sky_survey_api.survey.SurveyNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -47,4 +54,25 @@ public class GlobalExceptionHandler {
     public ErrorDto handleInvalidSurveyState(InvalidSurveyStateException ex) {
         return new ErrorDto(ex.getMessage());
     }
+    @ExceptionHandler(SubmissionValidationException.class)
+    public ResponseEntity<ValidationErrorsDto> handleSubmissionValidation(
+            SubmissionValidationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ValidationErrorsDto(ex.getErrors()));
+    }
+
+    @ExceptionHandler(SubmissionNotAcceptedException.class)
+    public ResponseEntity<ErrorDto> handleSubmissionNotAccepted(
+            SubmissionNotAcceptedException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(ex.getMessage()));   // adapt to your ErrorDto's constructor
+    }
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ValidationErrorsDto> handleMaxUpload(
+            MaxUploadSizeExceededException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ValidationErrorsDto(
+                        List.of("Upload exceeds the maximum permitted request size")));
+    }
+
 }
