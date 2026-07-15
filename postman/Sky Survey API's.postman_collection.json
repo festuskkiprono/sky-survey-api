@@ -1,0 +1,1491 @@
+{
+  "info": {
+    "_postman_id": "5b33b266-0c5f-4565-bb6e-5d5d5cbaf08a",
+    "name": "Sky Survey API's",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38701568"
+  },
+  "item": [
+    {
+      "name": "1. Survey Management",
+      "item": [
+        {
+          "name": "1.1 Create survey",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<survey>\r\n    <name>Graduate Developer Application Survey</name>\r\n    <description>Initial candidate screening survey</description>\r\n</survey>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.2 Fetch all surveys",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.3 Fetch survey by id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<survey>\r\n    <name>Graduate Developer Application Survey</name>\r\n    <description>Initial candidate screening survey</description>\r\n</survey>"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.4 Edit survey",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "<survey>\r\n    <name>Customer Feedback Survey 2026</name>\r\n    <description>Updated description for the feedback survey</description>\r\n</survey>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.5 Activate survey atleast one question should be present",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<survey>\r\n    <name>Graduate Developer Application Survey</name>\r\n    <description>Initial candidate screening survey</description>\r\n</survey>"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/activate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "1",
+                "activate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.6 Deactivate survey",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1/deactivate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "1",
+                "deactivate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.7 Delete survey",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.8 Fetch missing survey",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "1-3 Creating a survey and fetching it, both as a list and by its id.\n\nA new survey is created in DRAFT status.\n\n4 Editing a survey's name and description.\n\n5-6 Activating and deactivating the survey, each confirmed with a message.\n\nA survey cannot be activated unless it has at least one active question.\n\n7 Deleting the survey, the record is kept but hidden.\n\n8 Fetching a survey that does not exist returns a 404."
+    },
+    {
+      "name": "2. Questions Management",
+      "item": [
+        {
+          "name": "2.1 Create the survey",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "<survey>\r\n    <name>Backend Intern</name>\r\n    <description>Seeking self driven motivated developer to join our team</description>\r\n</survey>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.2 Create a the text question for the survey",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<question>\r\n    <name>full_name</name>\r\n    <prompt>What is your full name?</prompt>\r\n    <description>[Surname] [First Name] [Other Names]</description>\r\n    <type>short_text</type>\r\n    <required>true</required>\r\n    <maxLength>150</maxLength>\r\n</question>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.3 Add choice question with options",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/xml",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<question>\r\n    <name>programming_stack</name>\r\n    <prompt>What programming stack are you familiar with?</prompt>\r\n    <description>You can select multiple</description>\r\n    <type>choice</type>\r\n    <required>true</required>\r\n    <allowMultiple>true</allowMultiple>\r\n    <minSelection>1</minSelection>\r\n    <maxSelection>3</maxSelection>\r\n    <options>\r\n        <options>\r\n            <value>REACT</value>\r\n            <label>React JS</label>\r\n        </options>\r\n        <options>\r\n            <value>VUE</value>\r\n            <label>Vue JS</label>\r\n        </options>\r\n        <options>\r\n            <value>ANGULAR</value>\r\n            <label>Angular</label>\r\n        </options>\r\n    </options>\r\n</question>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.4 Fetch questions (admin view)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions?includeInactive=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions"
+              ],
+              "query": [
+                {
+                  "key": "includeInactive",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.5 Edit a text question",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "<question>\r\n    <name>full_name</name>\r\n    <prompt>What is your full legal name?</prompt>\r\n    <description>[Surname] [First Name] [Other Names]</description>\r\n    <type>short_text</type>\r\n    <required>true</required>\r\n    <maxLength>200</maxLength>\r\n</question>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/4/questions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "4",
+                "questions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.6 Edit choice question - rebuild options",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "<question>\r\n    <name>programming_stack</name>\r\n    <prompt>What programming stack are you familiar with?</prompt>\r\n    <description>You can select multiple</description>\r\n    <type>choice</type>\r\n    <required>true</required>\r\n    <allowMultiple>true</allowMultiple>\r\n    <minSelection>1</minSelection>\r\n    <maxSelection>3</maxSelection>\r\n    <options>\r\n        <options>\r\n            <value>REACT</value>\r\n            <label>React Framework</label>\r\n        </options>\r\n        <options>\r\n            <value>ANGULAR</value>\r\n            <label>Angular</label>\r\n        </options>\r\n        <options>\r\n            <value>GO</value>\r\n            <label>Go</label>\r\n        </options>\r\n    </options>\r\n</question>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.7 Deactivate question",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions/1/deactivate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions",
+                "1",
+                "deactivate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.8 Reactivate question",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions/1/activate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions",
+                "1",
+                "activate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.9 Delete question",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/2/questions/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "2",
+                "questions",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "1 Creating a fresh survey to hold the questions.  \n2-3 Adding a text question and a choice question with its options.  \n4 Fetching the survey's questions; an admin flag also reveals inactive ones.  \n5-6 Editing a question, including rebuilding a choice question's option list.  \nOptions are added, relabeled, and removed through the question edit itself.  \n7-8 Deactivating and reactivating a question a deactivated question stays visible to the admin.  \n9 Deleting a question"
+    },
+    {
+      "name": "3. Response Submission",
+      "item": [
+        {
+          "name": "3A. Intern Response. Festus Kiprono",
+          "item": [
+            {
+              "name": "3A.1 Create survey (Backend Intern)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "let sid;",
+                      "try { const j = xml2Json(pm.response.text()); if (j && j.survey && j.survey.id) sid = j.survey.id; } catch (e) {}",
+                      "if (!sid) { const m = pm.response.text().match(/<id>(\\d+)<\\/id>/); if (m) sid = m[1]; }",
+                      "if (sid) { pm.collectionVariables.set('internSurveyId', String(sid)); console.log('Intern survey id =', sid); }",
+                      "pm.test('Intern: survey created & id captured', function () { pm.expect(sid, 'no <id> in response').to.not.be.undefined; });"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<survey>\n    <name>Backend Intern</name>\n    <description>Screening survey for the backend intern position</description>\n</survey>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.2 Question: full_name (short_text)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>full_name</name>\n    <prompt>What is your full name?</prompt>\n    <description>[Surname] [First Name] [Other Names]</description>\n    <type>short_text</type>\n    <required>true</required>\n    <maxLength>150</maxLength>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.3 Question: email_address (email)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>email_address</name>\n    <prompt>What is your email address?</prompt>\n    <description></description>\n    <type>email</type>\n    <required>true</required>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.4 Question: programming_stack (choice, multi)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>programming_stack</name>\n    <prompt>What programming stack are you familiar with?</prompt>\n    <description>You can select multiple</description>\n    <type>choice</type>\n    <required>true</required>\n    <allowMultiple>true</allowMultiple>\n    <minSelection>1</minSelection>\n    <maxSelection>4</maxSelection>\n    <options>\n        <options>\n            <value>JAVA_SPRING</value>\n            <label>Java Spring</label>\n        </options>\n        <options>\n            <value>PYTHON_FASTAPI</value>\n            <label>Python FastAPI</label>\n        </options>\n        <options>\n            <value>NODE</value>\n            <label>Node.js</label>\n        </options>\n        <options>\n            <value>GO</value>\n            <label>Go</label>\n        </options>\n    </options>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.5 Question: university (short_text)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>university</name>\n    <prompt>Which university or college do you attend?</prompt>\n    <description>Full institution name</description>\n    <type>short_text</type>\n    <required>true</required>\n    <maxLength>200</maxLength>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.6 Question: cv (file, pdf)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>cv</name>\n    <prompt>Upload your CV</prompt>\n    <description>PDF only (.pdf), max 2MB</description>\n    <type>file</type>\n    <required>true</required>\n    <fileFormat>pdf</fileFormat>\n    <maxFileSize>2</maxFileSize>\n    <maxFileSizeUnit>mb</maxFileSizeUnit>\n    <allowMultipleFiles>false</allowMultipleFiles>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.7 Question: cover_letter (file, pdf)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>cover_letter</name>\n    <prompt>Upload your cover letter</prompt>\n    <description>PDF only (.pdf), max 2MB</description>\n    <type>file</type>\n    <required>true</required>\n    <fileFormat>pdf</fileFormat>\n    <maxFileSize>2</maxFileSize>\n    <maxFileSizeUnit>mb</maxFileSizeUnit>\n    <allowMultipleFiles>false</allowMultipleFiles>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.8 Activate survey",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "activate"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3A.9 Submit response (Festus Kiprono + CV + Cover Letter)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const t = pm.response.text();",
+                      "let cid;",
+                      "const patterns = [",
+                      "  /<certificateId>(\\d+)<\\/certificateId>/,",
+                      "  /<fileId>(\\d+)<\\/fileId>/,",
+                      "  /<uploadedFile[^>]*>[\\s\\S]*?<id>(\\d+)<\\/id>/,",
+                      "  /<certificate[^>]*>[\\s\\S]*?<id>(\\d+)<\\/id>/",
+                      "];",
+                      "for (const p of patterns) { const m = t.match(p); if (m) { cid = m[1]; break; } }",
+                      "if (cid) { pm.collectionVariables.set('certificateId', cid); console.log('captured certificateId =', cid); }"
+                    ]
+                  }
+                }
+              ],
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {}
+              },
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "full_name",
+                      "value": "Festus Kiprono",
+                      "type": "text"
+                    },
+                    {
+                      "key": "email_address",
+                      "value": "festus@gmail.com",
+                      "type": "text"
+                    },
+                    {
+                      "key": "programming_stack",
+                      "value": "JAVA_SPRING,PYTHON_FASTAPI",
+                      "type": "text"
+                    },
+                    {
+                      "key": "university",
+                      "value": "University of Nairobi",
+                      "type": "text"
+                    },
+                    {
+                      "key": "cv",
+                      "type": "file",
+                      "value": ""
+                    },
+                    {
+                      "key": "cover_letter",
+                      "type": "file",
+                      "value": ""
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/responses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{internSurveyId}}",
+                    "responses"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "The full intern applicant flow.\n\n3A.1 Creates the Backend Intern survey and stores its id in {{internSurveyId}}.\n\n3A.2-3A.7 Add the six questions.\n\n3A.8 Activates it.\n\n3A.9 Submits Festus Kiprono's answers with two PDF uploads.\n\nBefore sending 3A.9, click the cv and cover_letter file rows and pick a PDF for each.\n\nThe certificate id from the upload is captured into {{certificateId}} for Folder 4's download step."
+        },
+        {
+          "name": "3B. Experienced Response. Brian Keneth",
+          "item": [
+            {
+              "name": "3B.1 Create survey (Backend Developer, Mid Level)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "let sid;",
+                      "try { const j = xml2Json(pm.response.text()); if (j && j.survey && j.survey.id) sid = j.survey.id; } catch (e) {}",
+                      "if (!sid) { const m = pm.response.text().match(/<id>(\\d+)<\\/id>/); if (m) sid = m[1]; }",
+                      "if (sid) { pm.collectionVariables.set('expSurveyId', String(sid)); console.log('Experienced survey id =', sid); }",
+                      "pm.test('Experienced: survey created & id captured', function () { pm.expect(sid, 'no <id> in response').to.not.be.undefined; });"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<survey>\n    <name>Backend Developer (Mid Level)</name>\n    <description>Screening survey for the mid-level backend developer position</description>\n</survey>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.2 Question: full_name (short_text)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>full_name</name>\n    <prompt>What is your full name?</prompt>\n    <description>[Surname] [First Name] [Other Names]</description>\n    <type>short_text</type>\n    <required>true</required>\n    <maxLength>150</maxLength>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.3 Question: email_address (email)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>email_address</name>\n    <prompt>What is your email address?</prompt>\n    <description></description>\n    <type>email</type>\n    <required>true</required>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.4 Question: programming_stack (choice, multi)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>programming_stack</name>\n    <prompt>What programming stack are you familiar with?</prompt>\n    <description>You can select multiple</description>\n    <type>choice</type>\n    <required>true</required>\n    <allowMultiple>true</allowMultiple>\n    <minSelection>1</minSelection>\n    <maxSelection>4</maxSelection>\n    <options>\n        <options>\n            <value>JAVA_SPRING</value>\n            <label>Java Spring</label>\n        </options>\n        <options>\n            <value>PYTHON_FASTAPI</value>\n            <label>Python FastAPI</label>\n        </options>\n        <options>\n            <value>NODE</value>\n            <label>Node.js</label>\n        </options>\n        <options>\n            <value>GO</value>\n            <label>Go</label>\n        </options>\n    </options>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.5 Question: years_experience (choice, single)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>years_experience</name>\n    <prompt>How many years of professional backend experience do you have?</prompt>\n    <description>Select one</description>\n    <type>choice</type>\n    <required>true</required>\n    <allowMultiple>false</allowMultiple>\n    <minSelection>1</minSelection>\n    <maxSelection>1</maxSelection>\n    <options>\n        <options>\n            <value>ONE_TWO</value>\n            <label>1-2 years</label>\n        </options>\n        <options>\n            <value>THREE_FIVE</value>\n            <label>3-5 years</label>\n        </options>\n        <options>\n            <value>SIX_PLUS</value>\n            <label>6+ years</label>\n        </options>\n    </options>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.6 Question: github_url (short_text, optional)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>github_url</name>\n    <prompt>Share a link to your GitHub or portfolio</prompt>\n    <description>Full URL</description>\n    <type>short_text</type>\n    <required>false</required>\n    <maxLength>250</maxLength>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.7 Question: resume (file, pdf)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/xml",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<question>\n    <name>resume</name>\n    <prompt>Upload your resume</prompt>\n    <description>PDF only (.pdf), max 2MB</description>\n    <type>file</type>\n    <required>true</required>\n    <fileFormat>pdf</fileFormat>\n    <maxFileSize>2</maxFileSize>\n    <maxFileSizeUnit>mb</maxFileSizeUnit>\n    <allowMultipleFiles>false</allowMultipleFiles>\n</question>",
+                  "options": {
+                    "raw": {
+                      "language": "xml"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/questions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.8 Activate survey",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "activate"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "3B.9 Submit response (Brian Keneth)",
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {}
+              },
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "full_name",
+                      "value": "Brian Keneth",
+                      "type": "text"
+                    },
+                    {
+                      "key": "email_address",
+                      "value": "brian@yahoo.com",
+                      "type": "text"
+                    },
+                    {
+                      "key": "programming_stack",
+                      "value": "JAVA_SPRING,NODE",
+                      "type": "text"
+                    },
+                    {
+                      "key": "years_experience",
+                      "value": "THREE_FIVE",
+                      "type": "text"
+                    },
+                    {
+                      "key": "github_url",
+                      "value": "https://github.com/briankeneth",
+                      "type": "text"
+                    },
+                    {
+                      "key": "resume",
+                      "type": "file",
+                      "value": ""
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/surveys/{{expSurveyId}}/responses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "surveys",
+                    "{{expSurveyId}}",
+                    "responses"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "The full experienced applicant flow.\n\n3B.1 Creates the Backend Developer (Mid Level) survey and stores its id in {{expSurveyId}}s\n\n3B.2-3B.7 Add six questions ( single-select years_experience and optional github_url).\n\n3B.8 Activates the survey\n\n3B.9 Submits Brian Keneth's answers. Before sending 3B.9, pick a PDF on the resume file row."
+        }
+      ],
+      "description": "Two complete applicant journeys so the whole process is visible end to end.\n\n3A - Intern: Festus Kiprono, submits CV + Cover Letter.\n3B - Experienced: Brian Keneth, mid-level developer.\n\nEach sub-folder builds its own survey, adds its questions, activates, then submits a response. Survey ids are captured automatically, so run each sub-folder top to bottom - no ids to paste by hand. A survey cannot be activated until it has at least one active question, which is why activation comes after the questions."
+    },
+    {
+      "name": "4. Response Management",
+      "item": [
+        {
+          "name": "1 Fetch responses (intern survey)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/responses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "{{internSurveyId}}",
+                "responses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Pagination: page 1 of 2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/responses?page=1&pageSize=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "{{internSurveyId}}",
+                "responses"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 Pagination: page 2 of 2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/responses?page=2&pageSize=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "{{internSurveyId}}",
+                "responses"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 Filter by email (match: festus@gmail.com)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/responses?email=festus@gmail.com",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "{{internSurveyId}}",
+                "responses"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "festus@gmail.com"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 Filter by email (no match, empty page)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/{{internSurveyId}}/responses?email=nobody@nowhere.com",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "{{internSurveyId}}",
+                "responses"
+              ],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "nobody@nowhere.com"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 Download certificate (from 3A upload)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/certificates/{{certificateId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "certificates",
+                "{{certificateId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 Certificate not found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/certificates/99999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "certificates",
+                "99999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8 Responses for missing survey (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/surveys/99999/responses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "surveys",
+                "99999",
+                "responses"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Admin review of what Folder 3A submitted. Requests 1-5 read Festus's response from {{internSurveyId}}, including pagination and an email filter that matches (festus@gmail.com) and one that does not. Request 6 downloads the certificate uploaded in 3A using the captured {{certificateId}}. Requests 7-8 show the 404s for a missing certificate and a missing survey. Run Folder 3A first so the variables are set."
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "internSurveyId",
+      "value": ""
+    },
+    {
+      "key": "expSurveyId",
+      "value": ""
+    },
+    {
+      "key": "certificateId",
+      "value": "1"
+    }
+  ]
+}
