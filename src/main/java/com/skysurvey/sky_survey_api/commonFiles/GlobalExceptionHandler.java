@@ -1,14 +1,14 @@
 package com.skysurvey.sky_survey_api.commonFiles;
 
-import com.skysurvey.sky_survey_api.question.QuestionNotFoundException;
-import com.skysurvey.sky_survey_api.response.CertificateNotFoundException;
-import com.skysurvey.sky_survey_api.response.SubmissionNotAcceptedException;
-import com.skysurvey.sky_survey_api.response.SubmissionValidationException;
-import com.skysurvey.sky_survey_api.response.ValidationErrorsDto;
-import com.skysurvey.sky_survey_api.survey.ErrorDto;
-import com.skysurvey.sky_survey_api.survey.InvalidSurveyActivationException;
-import com.skysurvey.sky_survey_api.survey.InvalidSurveyStateException;
-import com.skysurvey.sky_survey_api.survey.SurveyNotFoundException;
+import com.skysurvey.sky_survey_api.question.exception.QuestionNotFoundException;
+import com.skysurvey.sky_survey_api.response.exception.CertificateNotFoundException;
+import com.skysurvey.sky_survey_api.response.exception.SubmissionNotAcceptedException;
+import com.skysurvey.sky_survey_api.response.exception.SubmissionValidationException;
+import com.skysurvey.sky_survey_api.response.dto.ValidationErrorsDto;
+import com.skysurvey.sky_survey_api.survey.dto.ErrorDto;
+import com.skysurvey.sky_survey_api.survey.exception.InvalidSurveyActivationException;
+import com.skysurvey.sky_survey_api.survey.exception.InvalidSurveyStateException;
+import com.skysurvey.sky_survey_api.survey.exception.SurveyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
